@@ -38,9 +38,9 @@
                     <td data-th="Quantity">
                         <input type="number" value="{{ $details['quantity'] }}" class="form-control quantity" />
                     </td>
-                    <td data-th="Subtotal" class="text-center">$<span class="product-subtotal">{{ $details['price'] * $details['quantity'] }}</span></td>
+                    <td data-th="Subtotal" class="text-center">$<span class="product-subtotal">{{ $details['price'] * $details['quantity'] }} / {{ currency($details['price'] * $details['quantity'], 'USD', 'EUR') }}</span></td>
                     <td class="actions" data-th="">
-                        <button class="btn btn-info btn-sm update-cart" data-id="{{ $id }}"><i class="fa fa-refresh"></i></button>
+                        <button class="btn btn-info btn-sm update-cart" data-id="{{ $id }}"><i class="fa fa-check-circle"></i></button>
                         <button class="btn btn-danger btn-sm remove-from-cart" data-id="{{ $id }}"><i class="fa fa-trash-o"></i></button>
                         <i class="fa fa-circle-o-notch fa-spin btn-loading" style="font-size:24px; display: none"></i>
                     </td>
@@ -51,13 +51,16 @@
         </tbody>
         <tfoot>
         <tr class="visible-xs">
-            <td class="text-center"><strong>Total $<span class="cart-total">{{ $total }}</span></strong></td>
+            <td class="text-center"><strong>Order: <span class="cart-total">{{ $total." " }}$</span>/ {{ currency($total, 'USD', 'EUR') }}  + Deleivary Cost: <span class="cart-total">4</span> $/ {{ currency(4, 'USD', 'EUR') }}</strong></td>
+            <td colspan="2" class="hidden-xs"></td>
+            <td colspan="2" class="hidden-xs"></td>
+            <td class="text-center"><strong> =  <span class="cart-total">{{ $total + 4 }}{{" " }}$</span>/ {{ currency($total + 4 , 'USD', 'EUR') }}</strong></td>
         </tr>
         <tr>
             <td><a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
             <td colspan="2" class="hidden-xs"></td>
-            <td class="hidden-xs text-center"><strong>Total $<span class="cart-total">{{ $total }}</span></strong></td>
-        </tr>
+            <td colspan="2" class="hidden-xs"></td>
+            <td><a href="{{ url('/check-out') }}" class="btn btn-info"><i class="fa fa-shopping-basket"></i> CheckOut </a></td></tr>
         </tfoot>
     </table>
 
@@ -84,18 +87,18 @@
             var loading = parent_row.find(".btn-loading");
 
             loading.show();
-
+            //alert(quantity);
             $.ajax({
                 url: '{{ url('update-cart') }}',
                 method: "patch",
                 data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id"), quantity: quantity},
                 dataType: "json",
                 success: function (response) {
-
-                    //loading.hide();
+                    //alert(response.msg);
+                    loading.hide();
 
                     $("span#status").html('<div class="alert alert-success">'+response.msg+'</div>');
-
+                    setTimeout(function(){ $("span#status").html(''); }, 2000);
                     $("#header-bar").html(response.data);
 
                     product_subtotal.text(response.subTotal);
@@ -125,7 +128,7 @@
                         parent_row.remove();
 
                         $("span#status").html('<div class="alert alert-success">'+response.msg+'</div>');
-
+                        setTimeout(function(){ $("span#status").html(''); }, 2000);
                         $("#header-bar").html(response.data);
 
                         cart_total.text(response.total);

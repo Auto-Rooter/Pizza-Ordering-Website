@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\Order;
+use DB;
+use Artisan;
 
 class ProductsController extends Controller
 {
@@ -13,22 +16,86 @@ class ProductsController extends Controller
    }
 
    public function cart(){
+       $this->update_currency_rate();
        return view('cart');
    }
+
+   
+   public function checkout(){
+    session()->put('totalp', $this->getCartTotal());
+    //dd($this->getCartTotal());
+    return view('checkout');
+    }
+
+    public function update_currency_rate(){
+        if(DB::select('select updated_at from currencies where name= "Euro"')){
+            $lastUpdateTimeForEuro = strtotime(explode(" ", DB::select('select updated_at from currencies where name= "Euro"')[0]->updated_at)[1]); // strtotime parses the time if it is not a timestamp, if it already is just use as is, i.e. without strtotime()
+            $currentTime = strtotime("now");
+            $diffTime = abs($currentTime - $lastUpdateTimeForEuro); 
+    
+            // I am using OPEN EXCHANGE RATE API (the free account ) so i update the table every 2 hours (deppend on the customer request)
+            if($diffTime >=  2 * 60 * 60){ 
+                Artisan::call("currency:update -o");
+               // dd(Artisan::output());
+            } 
+        }
+
+    }
+
+    public function confirm(Request $request){
+
+        $this->validate($request,[
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'address' => 'required',
+            'payment' => 'required',
+            'phonenumber' => 'required',
+            'email' => 'required'
+        ]);
+
+
+        $order = new Order;
+
+        $order->name = $request->firstName." ".$request->lastName;
+        $order->address = $request->address;
+        $order->total = $this->getCartTotal();
+        $order->email = $request->email;
+        $order->payment = $request->payment;
+        $order->phone = $request->phonenumber;
+
+        $order->save();
+
+        $product = Product::find(array_keys(session()->get('cart')));
+        $order->products()->attach($product);
+        session()->flush();
+
+        return redirect('/');
+
+    }
 
    public function update(Request $request){
         if($request->id and $request->quantity){
             $cart = session()->get('cart');
-            $cart[$request->id]["quantity"] = $$request->quantity;
+            $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
             $subTotal = $cart[$request->id]["quantity"] * $cart[$request->id]['price'];
             $total = $this->getCartTotal();
-            $htmlCart = view('_header_cart')->render();
-            return response()->json(['msg' => 'Cart updated successfully', 'data' => $htmlCart, 'total' => $total, 'subTotal' => $subTotal]);
+            $qnt = 0;
+            foreach ($cart as $el)  {
+                $qnt +=$el['quantity'];
+            };
+            session()->put('qnt', $qnt);
+            $htmlCart = view('cartView')->render();
+            return response()->json(['msg' => 'Cart updated successfully',
+                                                     'data' => $htmlCart,
+                                                      'total' => $total,
+                                                       'subTotal' => $subTotal, 'qnt'=> $qnt]);
 
             //session()->flash('success', 'Cart updated successfully...');
         }
    }
+
+
 
    public function remove(Request $request){
         if($request->id){
@@ -36,13 +103,20 @@ class ProductsController extends Controller
             if(isset($cart[$request->id])){
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
+                $qnt = 0;
+                foreach ($cart as $el)  {
+                    $qnt +=$el['quantity'];
+                };
+                session()->put('qnt', $qnt);
             }
             
             $total = $this->getCartTotal();
 
-            $htmlCart = view('_header_cart')->render();
+            $htmlCart = view('cartView')->render();
+            
 
-            return response()->json(['msg' => 'Product removed successfully', 'data' => $htmlCart, 'total' => $total]);
+            return response()->json(['msg' => 'Product removed successfully',
+                                     'data' => $htmlCart, 'total' => $total, 'qnt'=> $qnt]);
 
             //session()->flash('success', 'product removed from the cart');
         }
@@ -79,9 +153,11 @@ class ProductsController extends Controller
             ];
 
             session()->put('cart', $cart);
-            $htmlCart = view('_header_cart')->render();
+            session()->put('qnt', 1);
 
-            return response()->json(['msg' => 'Product added successfully...', 'data'=> $htmlCart]);
+            $htmlCart = view('cartView')->render();
+
+            return response()->json(['msg' => 'Product added successfully...', 'data'=> $htmlCart, 'qnt'=> $qnt]);
             //return redirect()->back->with('success', 'Product added successfully...');
        }
        
@@ -89,10 +165,15 @@ class ProductsController extends Controller
        if(isset($cart[$id])){
             $cart[$id]['quantity']++;
             session()->put('cart', $cart);
+            $qnt = 0;
+            foreach ($cart as $el)  {
+                $qnt +=$el['quantity'];
+            };
+            session()->put('qnt', $qnt);
             //return redirect()->back()->with('success', 'Product added successfully...');
-            $htmlCart = view('_header_cart')->render();
+            $htmlCart = view('cartView')->render();
 
-            return response()->json(['msg' => 'Product added successfully...', 'data'=> $htmlCart]);
+            return response()->json(['msg' => 'Product added successfully...', 'data'=> $htmlCart, 'qnt'=> $qnt]);
           
         }
 
@@ -105,11 +186,23 @@ class ProductsController extends Controller
        ];
 
        session()->put('cart', $cart);
+       $qnt = 0;
+       foreach ($cart as $el)  {
+           $qnt +=$el['quantity'];
+       };
+       session()->put('qnt', $qnt);
+       $htmlCart = view('cartView')->render();
 
-       $htmlCart = view('_header_cart')->render();
-
-       return response()->json(['msg' => 'Product added to cart successfully!', 'data' => $htmlCart]);
+       return response()->json(['msg' => 'Product added to cart successfully!', 'data' => $htmlCart, 'qnt'=> $qnt]);
 
        //return redirect()->back()->with('success', 'Product added successfully...');
    }
+   public function edit($id){
+    return view('products.edit', ['product' => Product::find($id)]);
 }
+}
+
+// php artisan make:migration create_order_product_table --create=order_product
+
+// 0K4w1DIuK2
+// aqh4uwZOkr

@@ -80,13 +80,7 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                 ابو زيد : يلعن الي ربط الجحش وفلتك  
-                </div>
 
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                   <img class="responsive" src="{{ URL::to('/images/bbbb.jpg') }}" style=" width: 100px;height: 100px;">
-                </div>
             </div>
         </div>
     </body>

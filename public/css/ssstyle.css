@@ -12,9 +12,9 @@
 }
 .dropdown .dropdown-menu{
     padding:20px;
-    top:30px !important;
+    top:50px !important;
     width:350px !important;
-    left:-110px !important;
+    left:-190px !important;
     box-shadow:0px 5px 30px black;
 }
 .total-header-section{
@@ -116,4 +116,23 @@
     table#cart tfoot td{display:block; }
     table#cart tfoot td .btn{display:block;}
 
+}
+
+.nav-link{
+    padding-top: 16px;
+    margin-right: 5px;
+}
+
+.FullName {  
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
+
+.firstName  {
+    width: 45%;
+}
+
+.LastName  {
+    width: 45%;
 }
