@@ -31,19 +31,32 @@ class DashboardController extends Controller
 
         $product = new Product;
         $product_image = $request->image;
-        $product_image_new_name = time().$product_image->getClientOriginalName();
-        $product_image->move('uploads/products', $product_image_new_name);
-        
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->photo = 'uploads/products/' . $product_image_new_name;
+        //$product_image_new_name = time().$product_image->getClientOriginalName();
+        //$product_image->move('uploads/products', $product_image_new_name);
+        //$image_name = $request->image->getRealPath();;
 
-        $product->save();
+        if($product_image){  
+            \Cloudder::upload($product_image);
+            $resp = \Cloudder::getResult();             
+            if($resp){
+               // dd($resp['public_id']);
+                $product->name = $request->name;
+                $product->description = $request->description;
+                $product->price = $request->price;
+                $product->photo = $resp['url'];
+                $product->public_id = $resp['public_id'];
+                $product->save();
 
-        Session::flash('success', 'Pizza added Successfully...');
+                Session::flash('success', 'Pizza added Successfully...');
+
+                return redirect()->route('dashboard.index');
+            }
+        }
+
+        Session::flash('alert-class', 'Something goes wrong ...');
 
         return redirect()->route('dashboard.index');
+        
     }
 
     // show the form for editing the pizza info
@@ -63,15 +76,31 @@ class DashboardController extends Controller
 
         if($request->hasFile('image')){
 
-            $product_image = $request->image;
+            // ==== Localy =====
+            // $product_image = $request->image;
 
-            $product_image_new_name = time() . $product_image->getClientOriginalName();
+            // $product_image_new_name = time() . $product_image->getClientOriginalName();
 
-            $product_image->move('uploads/products', $product_image_new_name);
+            // $product_image->move('uploads/products', $product_image_new_name);
 
-            $product->photo = 'uploads/products/' . $product_image_new_name;
+            // $product->photo = 'uploads/products/' . $product_image_new_name;
 
-            $product->save();
+            // $product->save();
+
+
+            \Cloudder::upload($product_image);
+            $resp = \Cloudder::getResult();             
+            if($resp){
+
+                $product->photo = $resp['url'];
+                $product->public_id = $resp['public_id'];
+
+                $product->save();
+
+                Session::flash('success', 'Pizza added Successfully...');
+
+                return redirect()->route('dashboard.index');
+            }
         }
 
         
@@ -91,10 +120,14 @@ class DashboardController extends Controller
 
         $product = Product::find($id);
 
-        if(file_exists($product->photo)){
-            unlink($product->photo);
-        }
+        // if(file_exists($product->photo)){
+        //     unlink($product->photo);
+        // }
 
+        Cloudder::destroyImage($product->public_id );
+        Cloudder::delete($publicId->public_id );
+        unlink($product->photo);
+        
         $product->delete();
 
         Session::flash('success', 'Product deleted.');
@@ -103,3 +136,4 @@ class DashboardController extends Controller
     }
 
 }
+

@@ -15,9 +15,10 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string("name", 255)->nullable();
-            $table->text("description")->nullable();
-            $table->string("photo", 255)->nullable();
+            $table->string("name", 255);
+            $table->text("description");
+            $table->string("photo", 255);
+            $table->string("public_id", 255);
             $table->decimal("price", 6, 2);
             $table->timestamps();
         });
@@ -33,5 +34,3 @@ class CreateProductsTable extends Migration
         Schema::dropIfExists('products');
     }
 }
-
-

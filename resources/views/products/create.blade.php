@@ -25,21 +25,21 @@
 
 
                                           <div class="field">
-                                          <p class="control has-icons-left">
+                                          <p class="control    ">
                                           <label for="image">Price</label>
                                           <input type="number" name="price" class="input" value="{{ old('price') }}">
                                           </p>
                                           </div>
 
                                           <div class="field">
-                                          <p class="control has-icons-left">
+                                          <p class="control    ">
                                           <label for="image">Image</label>
                                           <input type="file" name="image" class="input">
                                           </p>
                                           </div>
 
                                           <div class="field">
-                                          <p class="control has-icons-left">
+                                          <p class="control    ">
                                           <label for="description">Description</label>
                                           <textarea name="description" id="description" cols="30" rows="10" class="input">{{ old('description') }}</textarea>
                                           </p>
