@@ -15,7 +15,7 @@
                         <img src="{{ $product->photo }}" width="250" height="250">
                         <div class="caption">
                             <h4>{{ $product->name }}</h4>
-                            <p>{{ \Illuminate\Support\Str::limit(strtolower($product->description), 50) }}</p>
+                            <p>{{ \Illuminate\Support\Str::limit(strtolower($product->description), 80) }}</p>
                             <p><strong>Price: </strong> {{ $product->price }}$</p>
                             <p class="btn-holder"><a href="javascript:void(0);" data-id="{{ $product->id }}" class="btn btn-warning btn-block text-center add-to-cart" role="button">Add to cart</a>
                                 <i class="fa fa-circle-o-notch fa-spin btn-loading" style="font-size:24px; display: none"></i>
@@ -42,9 +42,9 @@
             ele.siblings('.btn-loading').show();
 
             $.ajax({
-                url: '{{ url('add-to-cart') }}' + '/' + ele.attr("data-id"),
-                method: "get",
-                data: {_token: '{{ csrf_token() }}'},
+                url: '{{ url('add-to-cart') }}',
+                method: "post",
+                data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id")},
                 dataType: "json",
                 success: function (response) {
                     ele.siblings('.btn-loading').hide();

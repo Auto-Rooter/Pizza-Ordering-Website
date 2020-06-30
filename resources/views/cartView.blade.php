@@ -14,7 +14,7 @@
                 @endforeach
 
                     <div class="col-lg-6 col-sm-6 col-6 total-section text-right">
-                        <p>Total: <span class="text-info">$ {{ $total }}</span></p>
+                        <p>Total: <span class="text-info">$ {{ $total }}/ {{ currency($total, 'USD', 'EUR') }} </span></p>
                     </div>
             </div>
 

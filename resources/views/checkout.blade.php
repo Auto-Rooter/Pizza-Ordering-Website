@@ -9,11 +9,6 @@
            <b> <span> {{ session('totalp') ." " }}$ / {{ currency(session('totalp'), 'USD', 'EUR') }} </span>  </b>
         </div>
 
-        <div class="form-group text-left">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your Email" required>
-        </div>
-
 
         <div class="form-group text-left">
             <label for="phonenumber">Phone Number</label>
@@ -27,6 +22,11 @@
                 <input type="name" class="form-control firstName mr-3" name="firstName" placeholder="First Name" required/>
                 <input type="name" class="form-control LastName mr-3" name="lastName" placeholder="Last Name" required/>
             </div>
+        </div>
+
+        <div class="form-group text-left">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your Email" required>
         </div>
 
 

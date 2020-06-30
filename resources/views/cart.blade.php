@@ -51,16 +51,33 @@
         </tbody>
         <tfoot>
         <tr class="visible-xs">
-            <td class="text-center"><strong>Order: <span class="cart-total">{{ $total." " }}$</span>/ {{ currency($total, 'USD', 'EUR') }}  + Deleivary Cost: <span class="cart-total">4</span> $/ {{ currency(4, 'USD', 'EUR') }}</strong></td>
+            <td class="text-center"><strong>Order: <span class="cart-total">{{ $total." " }}$ / {{  currency($total, 'USD', 'EUR') }} </span> 
+            @if ($total > 0)
+               + Deleivary Cost: <span class="cart-total">4 $/ {{ currency(4, 'USD', 'EUR') }} </span>  
+            @endif
+            </strong>     
+            </td>
             <td colspan="2" class="hidden-xs"></td>
             <td colspan="2" class="hidden-xs"></td>
-            <td class="text-center"><strong> =  <span class="cart-total">{{ $total + 4 }}{{" " }}$</span>/ {{ currency($total + 4 , 'USD', 'EUR') }}</strong></td>
+            <td class="text-center"><strong> =  <span class="cart-total">
+            @if ($total > 0)
+                {{ $total + 4 }}{{" " }}$ / {{ currency($total + 4 , 'USD', 'EUR') }} 
+            @else
+                0.0
+            @endif
+            </span> </strong></td>
         </tr>
         <tr>
             <td><a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
             <td colspan="2" class="hidden-xs"></td>
             <td colspan="2" class="hidden-xs"></td>
-            <td><a href="{{ url('/check-out') }}" class="btn btn-info"><i class="fa fa-shopping-basket"></i> CheckOut </a></td></tr>
+            <td><button class="btn btn-info">
+                @if(session('qnt')>0)
+                        <a href="{{ url('/check-out') }}" style="text-decoration: none;color:#FFFF"><i class="fa fa-shopping-basket"></i> CheckOut </a>
+                @else
+                        Your cart is Empty
+                @endif
+            </button></td></tr>
         </tfoot>
     </table>
 
@@ -94,16 +111,23 @@
                 data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id"), quantity: quantity},
                 dataType: "json",
                 success: function (response) {
-                    //alert(response.msg);
-                    loading.hide();
+                    if(response.subTotal <= 0){
+                        loading.hide();
+                        parent_row.remove();
+                        $(this).parents("tr").remove();
+                    }else{
+                        product_subtotal.text(response.subTotal+" / "+response.subTotal_EU);
+                        loading.hide();
+                    }
+
+                    
 
                     $("span#status").html('<div class="alert alert-success">'+response.msg+'</div>');
                     setTimeout(function(){ $("span#status").html(''); }, 2000);
                     $("#header-bar").html(response.data);
 
-                    product_subtotal.text(response.subTotal);
+                    cart_total.text(response.total+" / "+response.total_EU);
 
-                    cart_total.text(response.total);
                 }
             });
         });
@@ -131,7 +155,7 @@
                         setTimeout(function(){ $("span#status").html(''); }, 2000);
                         $("#header-bar").html(response.data);
 
-                        cart_total.text(response.total);
+                        cart_total.text(response.total+" / "+response.total_EU);
                     }
                 });
             }

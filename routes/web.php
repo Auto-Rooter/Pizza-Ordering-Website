@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'ProductsController@index');
 Route::get('cart', 'ProductsController@cart');
-Route::get('add-to-cart/{id}', 'ProductsController@addToCart');
+Route::post('add-to-cart', 'ProductsController@addToCart');
 Route::patch('update-cart', 'ProductsController@update');
 Route::delete('remove-from-cart', 'ProductsController@remove');
 Route::get('check-out', 'ProductsController@checkout');

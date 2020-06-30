@@ -28,6 +28,7 @@ class ProductsController extends Controller
     }
 
     public function update_currency_rate(){
+        // First of all we need to add currencies to the table only for the first time by excuting the command: php artisan currency:manage add usd,eur
         if(DB::select('select updated_at from currencies where name= "Euro"')){
             $lastUpdateTimeForEuro = strtotime(explode(" ", DB::select('select updated_at from currencies where name= "Euro"')[0]->updated_at)[1]); // strtotime parses the time if it is not a timestamp, if it already is just use as is, i.e. without strtotime()
             $currentTime = strtotime("now");
@@ -74,11 +75,19 @@ class ProductsController extends Controller
     }
 
    public function update(Request $request){
-        if($request->id and $request->quantity){
+    if($request->id){
             $cart = session()->get('cart');
-            $cart[$request->id]["quantity"] = $request->quantity;
-            session()->put('cart', $cart);
-            $subTotal = $cart[$request->id]["quantity"] * $cart[$request->id]['price'];
+            $subTotal = 0 ;
+            if( $request->quantity == 0){
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+            }else{
+                $cart[$request->id]["quantity"] = $request->quantity;
+                session()->put('cart', $cart);
+                $subTotal = $cart[$request->id]["quantity"] * $cart[$request->id]['price'];
+            }
+            
+
             $total = $this->getCartTotal();
             $qnt = 0;
             foreach ($cart as $el)  {
@@ -89,11 +98,14 @@ class ProductsController extends Controller
             return response()->json(['msg' => 'Cart updated successfully',
                                                      'data' => $htmlCart,
                                                       'total' => $total,
-                                                       'subTotal' => $subTotal, 'qnt'=> $qnt]);
+                                                      'total_EU' => currency($total, 'USD', 'EUR'),
+                                                       'subTotal' => $subTotal,
+                                                       'subTotal_EU' => currency($subTotal, 'USD', 'EUR'),
+                                                        'qnt'=> $qnt]);
 
             //session()->flash('success', 'Cart updated successfully...');
-        }
-   }
+
+   }}
 
 
 
@@ -116,7 +128,7 @@ class ProductsController extends Controller
             
 
             return response()->json(['msg' => 'Product removed successfully',
-                                     'data' => $htmlCart, 'total' => $total, 'qnt'=> $qnt]);
+                                     'data' => $htmlCart, 'total' => $total,'total_EU' => currency($total, 'USD', 'EUR'), 'qnt'=> $qnt]);
 
             //session()->flash('success', 'product removed from the cart');
         }
@@ -132,9 +144,10 @@ class ProductsController extends Controller
    }
 
 
-   public function addToCart($id){
+   public function addToCart(Request $request){
        //store the cart item using laravel session.
-
+       if($request->id){
+        $id = $request->id;
        $product = Product::find($id);
        if(!$product){
             abort(404);
@@ -153,7 +166,11 @@ class ProductsController extends Controller
             ];
 
             session()->put('cart', $cart);
-            session()->put('qnt', 1);
+            $qnt = 0;
+            foreach ($cart as $el)  {
+                $qnt +=$el['quantity'];
+            };
+            session()->put('qnt', $qnt);
 
             $htmlCart = view('cartView')->render();
 
@@ -194,7 +211,7 @@ class ProductsController extends Controller
        $htmlCart = view('cartView')->render();
 
        return response()->json(['msg' => 'Product added to cart successfully!', 'data' => $htmlCart, 'qnt'=> $qnt]);
-
+    }
        //return redirect()->back()->with('success', 'Product added successfully...');
    }
    public function edit($id){
@@ -203,6 +220,3 @@ class ProductsController extends Controller
 }
 
 // php artisan make:migration create_order_product_table --create=order_product
-
-// 0K4w1DIuK2
-// aqh4uwZOkr
