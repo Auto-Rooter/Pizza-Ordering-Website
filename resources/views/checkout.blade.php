@@ -50,6 +50,23 @@
 
 
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Submit</button>
+
+
+
+            <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+                <div class="modal-body">
+                    <p>Your order sent Successfully....</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+
+            </div>
+            </div>
         </form>
 @endsection

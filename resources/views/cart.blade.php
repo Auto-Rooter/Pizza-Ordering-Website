@@ -51,10 +51,11 @@
         </tbody>
         <tfoot>
         <tr class="visible-xs">
-            <td class="text-center"><strong>Order: <span class="cart-total">{{ $total." " }}$ / {{  currency($total, 'USD', 'EUR') }} </span> 
+            <td class="text-center"><strong>Order: <span class="cart-total">{{ $total." " }}$ / {{  currency($total, 'USD', 'EUR') }}  
             @if ($total > 0)
-               + Deleivary Cost: <span class="">4 $/ {{ currency(4, 'USD', 'EUR') }} </span>  
+               + Delivery Fee: 4 $/ {{ currency(4, 'USD', 'EUR') }}   
             @endif
+            </span>
             </strong>     
             </td>
             <td colspan="2" class="hidden-xs"></td>
@@ -71,7 +72,7 @@
             <td><a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
             <td colspan="2" class="hidden-xs"></td>
             <td colspan="2" class="hidden-xs"></td>
-            <td><button class="btn btn-info">
+            <td><button class="btn btn-info" id="checkout">
                 @if(session('qnt')>0)
                         <a href="{{ url('/check-out') }}" style="text-decoration: none;color:#FFFF"><i class="fa fa-shopping-basket"></i> CheckOut </a>
                 @else
@@ -119,7 +120,9 @@
                         product_subtotal.text(response.subTotal+" / "+response.subTotal_EU);
                         loading.hide();
                     }
-
+                    if(response.qnt==0){
+                        $("#checkout").html('Your cart is Empty');
+                    }
                     
 
                     $("span#status").html('<div class="alert alert-success">'+response.msg+'</div>');

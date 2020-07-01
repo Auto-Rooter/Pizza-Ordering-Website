@@ -75,10 +75,10 @@ class ProductsController extends Controller
     }
 
    public function update(Request $request){
-    if($request->id){
+    if($request->id ){
             $cart = session()->get('cart');
             $subTotal = 0 ;
-            if( $request->quantity == 0){
+            if( $request->quantity <= 0){
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }else{
