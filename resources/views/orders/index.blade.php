@@ -1,16 +1,16 @@
-@extends('layout')
+@extends('products.adminHeader')
 
 
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-12 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Orders</div>
-
-                <div class="panel-body">
-                    <table class="table">
-                        <thead>
+            <div class="panel panel-default" style="margin-top:12px">
+                <div class="panel-heading">
+                      <span>Orders</span>
+                </div>
+                <div class="panel-body table">
+                <table class="table"  >
+                <thead>
                               <th>
                                     id
                               </th>
@@ -27,6 +27,9 @@
                                     Total
                               </th>
                               <th>
+                                    Payment Type
+                              </th>
+                              <th>
                                   Date
                               </th>
                         </thead>
@@ -37,15 +40,19 @@
                                           <td>{{ $order->name }}</td>
                                           <td>{{ $order->phone }}</td>
                                           <td>{{ $order->address }}</td>
-                                          <td>{{ $order->total }}</td>
-                                          <td>{{ $order->date }}</td>                                          
+                                          <td>${{ $order->total }}</td>
+                                          <td>{{ $order->payment ? "Cash" : "Card" }} </td>
+                                          <td>{{ $order->created_at }}</td>
+                                          <td><button class="button is-primary is-small ">
+                                                <a href="{{ route('order-show', $order->id) }}" style="color:#ffff;font:23px; font-size:16px;" >Show</a>
+                                          </button></td>                                          
                                     </tr>
                               @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 @endsection
+

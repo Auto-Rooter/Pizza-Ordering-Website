@@ -21,11 +21,25 @@ class OrdersController extends Controller
 
     public function show($id)
     {
-        $elements = Order::find($id)->products()->get();
+        $elements = [];
+        $items = Order::find($id)->products()->get();
+        
+        if($items->count() >0){
+            $timestampFromCreatedAt = Order::find($id)->created_at;
+
+            $elements = [
+                'items' => $items,
+                'username' => Order::find($id)->name,
+                'date' => $timestampFromCreatedAt->toDateString()." , ".$timestampFromCreatedAt->toTimeString(),
+                'payment' => Order::find($id)->payment
+            ];
+
+        }
+
         return view('orders.show', compact('elements'));
     }
 
-    public function 
+
 
     // $product->save();
 

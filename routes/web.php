@@ -21,12 +21,17 @@ Route::delete('remove-from-cart', 'ProductsController@remove');
 Route::get('check-out', 'ProductsController@checkout');
 Route::post('confirm', 'ProductsController@confirm');
 
-Route::resource('dashboard', 'DashboardController');
+
 Auth::routes();
 
 Route::get('/home', 'ProductsController@index')->name('home');
-Route::get('/orders', 'OrdersController@index');
 
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/orders', 'OrdersController@index');
+    Route::get('/order-show/{id}', 'OrdersController@show')->name('order-show');
+    Route::resource('dashboard', 'DashboardController');
+});
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 /*

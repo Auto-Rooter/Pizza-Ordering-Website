@@ -15,7 +15,7 @@
                         <img src="{{ $product->photo }}" width="250" height="250">
                         <div class="caption">
                             <h4>{{ $product->name }}</h4>
-                            <p>{{ \Illuminate\Support\Str::limit(strtolower($product->description), 80) }}</p>
+                            <p>{{ \Illuminate\Support\Str::limit(strtolower($product->description), 200) }}</p>
                             <p><strong>Price: </strong> {{ $product->price }}$</p>
                             <p class="btn-holder"><a href="javascript:void(0);" data-id="{{ $product->id }}" class="btn btn-warning btn-block text-center add-to-cart" role="button">Add to cart</a>
                                 <i class="fa fa-circle-o-notch fa-spin btn-loading" style="font-size:24px; display: none"></i>

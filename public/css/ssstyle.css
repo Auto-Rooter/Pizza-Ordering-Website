@@ -9,12 +9,13 @@
     border:0px;
     margin:10px 0px;
     box-shadow:none !important;
+    
 }
 .dropdown .dropdown-menu{
     padding:20px;
     top:50px !important;
     width:350px !important;
-    left:-190px !important;
+    left:-300px !important;
     box-shadow:0px 5px 30px black;
 }
 .total-header-section{
@@ -87,12 +88,20 @@
     vertical-align: middle;
 }
 @media screen and (max-width: 600px) {
+    #cont{
+        align-content: center;
+        text-align: center;
+    }
+    #shopping-cart{
+        align-content: center;
+        display:block;
+    }
     table#cart tbody td .form-control{
         width:20%;
         display: inline !important;
     }
     .actions .btn{
-        width:36%;
+        width:30%;
         margin:1.5em 0;
     }
 

@@ -28,12 +28,13 @@
             <div id="navMenu" class="navbar-menu">
                 <div class="navbar-end">
                 @if(Auth::user())
-                    <a href="{{ url('/logout') }}" class="navbar-item "> Orders </a>
+                    <a href="{{ url('/orders') }}" class="navbar-item "> Orders </a>
+                    <a href="{{ route('dashboard.index') }}" class="navbar-item "> Products </a>
+                    <a href="{{ url('/logout') }}" class="navbar-item "> Logout </a>
                 @else
                     <a href="{{ url('/login') }}" class="navbar-item "> Login </a>
-                @endif
-                    <a href="{{ url('/logout') }}" class="navbar-item "> Products </a>
-                    <a href="{{ url('/logout') }}" class="navbar-item "> Logout </a>
+                @endif 
+
                 </div>
             </div>
         

@@ -10,7 +10,7 @@
 	          <li class="nav-item"><a href={{url('/')}} class="nav-link">Menu</a></li>
 	          <li class="nav-item"><a href={{url('/')}} class="nav-link">Services</a></li>
 	          <li class="nav-item"><a href={{url('/')}} class="nav-link">About</a></li>
-			  <li class="nav-item">
+			  <li class="nav-item" id="cont" >
                 @include('cartView')
               </li>
 			  

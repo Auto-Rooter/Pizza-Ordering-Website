@@ -1,28 +1,27 @@
-@extends('layout')
+@extends('products.adminHeader')
 
 
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-12 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Order {{ $elements->id ? '#'.$elements->id  : ' :' }} elements: </div>
-
-                <div class="panel-body">
-                    <table class="table">
+            <div class="panel panel-default" style="margin-top:12px">
+                <div class="panel-heading">Order for <span style="color:#8BC34A;font-size:18px;">{{ $elements['username'] }}</span> in <span style="color:#8BC34A;font-size:17px;">{{ $elements['date'] }}</span> : <b>({{$elements['items']->count()}})</b> </div>
+                    
+                <div class="panel-body table">
+                    <table class="table" style="width: 100%;">
                         <thead>
                               <th>
-                                    name
+                                    Item
                               </th>
                               <th>
-                                    price
+                                    Price
                               </th>
                         </thead>
                         <tbody>
-                        @foreach($elements as $element)
+                        @foreach($elements['items'] as $element)
                                     <tr>
                                           <td>{{ $element->name }}</td>
-                                          <td>{{ $element->price }}</td>                                          
+                                          <td>${{ $element->price }}</td>                                          
                                     </tr>
                               @endforeach
                         </tbody>
@@ -30,6 +29,5 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 @endsection

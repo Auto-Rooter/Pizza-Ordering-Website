@@ -53,7 +53,7 @@
         <tr class="visible-xs">
             <td class="text-center"><strong>Order: <span class="cart-total">{{ $total." " }}$ / {{  currency($total, 'USD', 'EUR') }} </span> 
             @if ($total > 0)
-               + Deleivary Cost: <span class="cart-total">4 $/ {{ currency(4, 'USD', 'EUR') }} </span>  
+               + Deleivary Cost: <span class="">4 $/ {{ currency(4, 'USD', 'EUR') }} </span>  
             @endif
             </strong>     
             </td>
