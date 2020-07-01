@@ -1,7 +1,8 @@
+<di id="header-bar">
 <button type="button" class="btn" data-toggle="dropdown" style="background-color:#FFF176" id="shopping-cart">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span class="badge badge-pill badge-danger">{{ session('qnt') }}</span>
 </button>
-<div class="dropdown"  id="header-bar">
+<div class="dropdown"  >
 
                     <div class="dropdown-menu">
                             <div class="row total-header-section">
@@ -40,3 +41,4 @@
                             </div>
     </div>
 </div>
+</di>
