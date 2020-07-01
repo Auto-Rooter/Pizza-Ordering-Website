@@ -25,3 +25,10 @@
 .navbar-dark:hover .navbar-nav:hover .nav-link:hover  {
     color: #265CFF ; 
  }
+
+ .footer {
+    clear: both;
+    position: relative;
+    height: 20px;
+    margin-top: -100px;
+}
