@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>Dashboard</title>
+    <link rel="icon" href="{{ URL::to('dashboard.png') }}">
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <script src="https://kit.fontawesome.com/1041157948.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ URL::to('css/adminHeader.css') }}">
