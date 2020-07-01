@@ -10,8 +10,8 @@
     <script src="https://kit.fontawesome.com/1041157948.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ URL::to('css/adminHeader.css') }}">
   </head>
-<body>
 
+<body>
 <nav class="navbar is-primary">
     <div class="container">
         <div class="navbar-brand">
@@ -25,27 +25,18 @@
             </span>
         </div>
 
+        <div id="navMenu" class="navbar-menu">
+            <div class="navbar-end">
+            @if(Auth::user())
+                <a href="{{ url('/orders') }}" class="navbar-item "> Orders </a>
+                <a href="{{ route('dashboard.index') }}" class="navbar-item "> Products </a>
+                <a href="{{ url('/logout') }}" class="navbar-item "> Logout </a>
+            @else
+                <a href="{{ url('/login') }}" class="navbar-item "> Login </a>
+            @endif 
 
-        
-            <div id="navMenu" class="navbar-menu">
-                <div class="navbar-end">
-                @if(Auth::user())
-                    <a href="{{ url('/orders') }}" class="navbar-item "> Orders </a>
-                    <a href="{{ route('dashboard.index') }}" class="navbar-item "> Products </a>
-                    <a href="{{ url('/logout') }}" class="navbar-item "> Logout </a>
-                @else
-                    <a href="{{ url('/login') }}" class="navbar-item "> Login </a>
-                @endif 
-
-                </div>
             </div>
-        
-
-        
-
-
-  
-
+        </div>
     </div>
 </nav>
 <script type="text/javascript">
@@ -62,40 +53,6 @@
  
 
 
-    <!-- <nav class="navbar is-transparent">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      <img src="{{ URL::to('/images/logo2.png') }}" alt="..." width="40" height="100">
-    </a>
-  </div>
-
-  <div id="navbarExampleTransparentExample" class="navbar-menu">
-    <div class="navbar-start">
-
-
-      </div>
-    </div>
-
-    <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="field is-grouped">
-          <p class="control">
-          </p>
-          <p class="control" style="margin-right: 25px;">
-          <a  href="">
-              <span class="icon"  style="color:#00c4a7" >
-                    <i class="fas fa-shopping-basket is-large fas fa-2x" style="margin-right: 4px;"></i>
-                    <span class="tag is-info is-normal is-light" style="border-radius: 25px;">2</span>
-              </span>
-            </a>  
-
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav> -->
-
 
 
 <div id="app">
@@ -104,14 +61,14 @@
  
 </div>
 </body>
-
+<!-- 
 <footer class="page-footer font-small bg-dark" id="footer1">
 <div class="content has-text-centered" style="margin-top: 18px;">
     <p>
       <strong>Pizzas Land</strong> by <a href="https://github.com/Auto-Rooter">Hadi Assalem</a> © 2020 Copyright
     </p>
   </div>
-</footer>
+</footer> -->
 
 
 
