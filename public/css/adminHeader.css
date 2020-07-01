@@ -26,9 +26,24 @@
     color: #265CFF ; 
  }
 
- .footer {
-    clear: both;
+ html {
     position: relative;
-    height: 20px;
-    margin-top: -100px;
+    min-height: 100%;
+}
+
+body {
+    margin: 0 0 100px;
+    /* bottom = footer height */
+    padding-bottom: 25px;
+}
+
+footer {
+    color: black;
+    background-color: #d2d2d2;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+    overflow: hidden;
 }

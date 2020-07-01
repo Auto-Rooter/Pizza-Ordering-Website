@@ -105,13 +105,15 @@
 </div>
 </body>
 
-<footer class="footer" >
-  <div class="content has-text-centered">
+<footer class="page-footer font-small bg-dark" id="footer1">
+<div class="content has-text-centered" style="margin-top: 18px;">
     <p>
-      <strong>Pizzss Land</strong> by <a href="https://github.com/Auto-Rooter">Hadi Assalem</a> © 2020 Copyright
+      <strong>Pizzas Land</strong> by <a href="https://github.com/Auto-Rooter">Hadi Assalem</a> © 2020 Copyright
     </p>
   </div>
 </footer>
+
+
 
 </html>
 

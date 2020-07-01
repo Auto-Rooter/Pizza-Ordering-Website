@@ -54,7 +54,7 @@
 
 </body>
 
-<footer class="page-footer font-small bg-dark">
+<footer class="page-footer font-small bg-dark" id="footer1">
 
   <div class="footer-copyright text-center py-3" style="color:#ffff">© 2020 Pizzas Land Copyright  </div>
 
