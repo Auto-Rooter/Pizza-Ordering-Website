@@ -53,4 +53,11 @@
 @yield('scripts')
 
 </body>
+
+<footer class="page-footer font-small bg-dark">
+
+  <div class="footer-copyright text-center py-3" style="color:#ffff">© 2020 Pizzas Land Copyright  </div>
+
+</footer>
+
 </html>

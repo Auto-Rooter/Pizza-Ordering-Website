@@ -104,6 +104,15 @@
  
 </div>
 </body>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Pizzss Land</strong> by <a href="https://github.com/Auto-Rooter">Hadi Assalem</a> © 2020 Copyright
+    </p>
+  </div>
+</footer>
+
 </html>
 
 
