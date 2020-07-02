@@ -22,7 +22,7 @@ class ProductsController extends Controller
 
    
    public function checkout(){
-    session()->put('totalp', $this->getCartTotal());
+    session()->put('totalp', $this->getCartTotal()+4);
     //dd($this->getCartTotal());
     return view('checkout');
     }
@@ -59,7 +59,7 @@ class ProductsController extends Controller
 
         $order->name = $request->firstName." ".$request->lastName;
         $order->address = $request->address;
-        $order->total = $this->getCartTotal();
+        $order->total = $this->getCartTotal()+4;
         $order->email = $request->email;
         $order->payment = $request->payment;
         $order->phone = $request->phonenumber;
@@ -150,7 +150,7 @@ class ProductsController extends Controller
    public function addToCart(Request $request){
 
         session()->forget('order_sent');
-        
+
        //store the cart item using laravel session.
        if($request->id){
         $id = $request->id;
