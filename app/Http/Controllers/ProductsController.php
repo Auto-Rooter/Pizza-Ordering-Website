@@ -67,9 +67,12 @@ class ProductsController extends Controller
         $order->save();
 
         $product = Product::find(array_keys(session()->get('cart')));
-        $order->products()->attach($product);
-        session()->flush();
+        foreach ($product as $prod)  {
+            $order->products()->attach($prod->id, ['quantity' => session()->get('cart')[$prod->id]['quantity']]);
+        };
 
+        session()->flush();
+        session()->put('order_sent', "Your order on it`s way to you ....");
         return redirect('/');
 
     }
@@ -145,6 +148,9 @@ class ProductsController extends Controller
 
 
    public function addToCart(Request $request){
+
+        session()->forget('order_sent');
+        
        //store the cart item using laravel session.
        if($request->id){
         $id = $request->id;

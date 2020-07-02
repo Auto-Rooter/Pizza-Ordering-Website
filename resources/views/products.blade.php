@@ -5,8 +5,14 @@
 @section('content')
 
     <div class="container products">
+        
+        <span id="status">
 
-        <span id="status"></span>
+            @if(session('order_sent') )
+                <div class="alert alert-success">{{session('order_sent')}}</div>
+            @endif
+
+        </span>
         <div class="row">
 
             @foreach($products as $product)
@@ -34,6 +40,7 @@
 @section('scripts')
 
     <script type="text/javascript">
+
         $(".add-to-cart").click(function (e) {
             e.preventDefault();
 

@@ -157,7 +157,9 @@
                         $("span#status").html('<div class="alert alert-success">'+response.msg+'</div>');
                         setTimeout(function(){ $("span#status").html(''); }, 2000);
                         $("#header-bar").html(response.data);
-
+                        if(response.qnt==0){
+                            $("#checkout").html('Your cart is Empty');
+                        }
                         cart_total.text(response.total+" / "+response.total_EU);
                     }
                 });
