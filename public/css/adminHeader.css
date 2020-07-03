@@ -16,6 +16,9 @@
   }
 
 
+body{
+    font-family: 'Poppins';
+}
 .navbar-dark .navbar-nav .nav-link  {
    font-family:'Poppins';
    color: #7b8b8e; 
