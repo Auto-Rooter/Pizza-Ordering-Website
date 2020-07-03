@@ -8,7 +8,7 @@
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <script src="https://kit.fontawesome.com/1041157948.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ URL::to('css/adminHeader.css') }}">
+    <link rel="stylesheet" href="{{ URL::to('css/AdminHeader.css') }}">
   </head>
 
 <body>

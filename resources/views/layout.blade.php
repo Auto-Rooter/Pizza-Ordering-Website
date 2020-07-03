@@ -38,7 +38,7 @@
     
     <link rel="stylesheet" href="{{ URL::to('css/flaticon.css') }}" >
     <link rel="stylesheet" href="{{ URL::to('css/icomoon.css') }}">
-    <link rel="stylesheet" href="{{ URL::to('css/ssstyle.css') }}" >
+    <link rel="stylesheet" href="{{ URL::to('css/style.css') }}" >
 
 
 
